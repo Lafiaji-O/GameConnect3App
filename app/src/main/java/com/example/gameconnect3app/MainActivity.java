@@ -14,6 +14,8 @@ public class MainActivity extends AppCompatActivity {
 
     int activePlayer = 0, tappedCounter;
 
+    boolean gameIsActive = true;
+
     // 2 is empty slots
 
     int [] gameState = {2,2,2,2,2,2,2,2,2};
@@ -26,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         tappedCounter = Integer.parseInt(counter.getTag().toString());
 
-        if (gameState[tappedCounter] == 2) {
+        if (gameState[tappedCounter] == 2 && gameIsActive) {
 
             gameState[tappedCounter] = activePlayer;
 
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
                         && gameState[winningPosition[1]] == gameState[winningPosition[2]]
                         && gameState[winningPosition[0]] != 2) {
 
+                    gameIsActive = false;
 
                     String winner = "Red";
 
@@ -72,6 +75,26 @@ public class MainActivity extends AppCompatActivity {
                     LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
                     linearLayout.setVisibility(View.VISIBLE);
 
+                } else {
+
+                    boolean gameIsOver = true;
+
+                    for (int counterState : gameState) {
+
+                        if (counterState == 2) gameIsOver = false;
+
+                    }
+
+                    if (gameIsOver) {
+
+                        TextView winnerMessage = (TextView) findViewById(R.id.winnerMessage);
+
+                        winnerMessage.setText("It's a draw!");
+
+                        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
+                        linearLayout.setVisibility(View.VISIBLE);
+
+                    }
                 }
 
             }
@@ -82,6 +105,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void playAgain (View view) {
+
+        gameIsActive= true;
 
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
 
